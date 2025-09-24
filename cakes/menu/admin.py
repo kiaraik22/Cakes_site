@@ -5,4 +5,18 @@ from .models import MenuCake
 
 # Вопрос с составлением админки
 
-admin.site.register(MenuCake)
+class MenuCakeAdmin(admin.ModelAdmin):
+    # показывает,какие поля будут видны в админке
+    list_display = ('name','price','discount','description')
+
+    # делаем выбранные графы кликабельными в админке
+    list_display_links = ('name','price')
+
+    # добавили поиск по полям
+    search_fields = ('name','price')
+
+    # добавили фильтр по полям
+    list_filter = ('name','price','description')
+
+
+admin.site.register(MenuCake, MenuCakeAdmin)
