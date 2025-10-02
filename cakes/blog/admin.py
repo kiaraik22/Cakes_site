@@ -1,12 +1,16 @@
 from django.contrib import admin
-from django.utils.text import Truncator
+from .models import Posts
+
+# Register your models here.
+
+from django.contrib import admin
 from .models import Posts
 
 # Register your models here.
 
 class PostsAdmin(admin.ModelAdmin):
     # показывает,какие поля будут видны в админке
-    list_display = ('title', 'content', 'created')
+    list_display = ('title', 'short_content', 'created')
 
 # Как можно сократить описание в админке?
 

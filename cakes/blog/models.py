@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import truncatechars
 from users.models import Profile
 
 # Create your models here.
@@ -8,6 +9,10 @@ class Posts(models.Model):
     content = models.TextField(null=True,blank=True)
     image = models.ImageField(null=True,blank=True,upload_to='projects/%Y/%m/%d/')
     created = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def short_content(self):
+        return truncatechars(self.content, 100)
 
     def __str__(self):
         return self.title
