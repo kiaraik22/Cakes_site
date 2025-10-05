@@ -5,10 +5,18 @@ from .models import Posts
 
 from django.contrib import admin
 from .models import Posts
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from django import forms
 
-# Register your models here.
+class PostAdminForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorUploadingWidget())
+
+    class Meta:
+        model = Posts
+        fields = '__all__'
 
 class PostsAdmin(admin.ModelAdmin):
+    form = PostAdminForm
     # показывает,какие поля будут видны в админке
     list_display = ('title', 'short_content', 'created')
 
