@@ -141,100 +141,60 @@
                     </div>
                 </div>
             </div>
-            <div class="product_style2_ocntainer">
+            <div class="product_style2_container">
                 <div class="row">
+
                     <div class="product_carousel product2_column5 owl-carousel">
 
 {#                        ВСТАВЛЯЕМ СВОЕ МЕНЮ!!!!#}
+                    {% for flower in cake %}
                         <div class="col-lg-3">
                             <div class="product_items">
 
                                 <article class="single_product">
-                                    <figure>
-                                        <div class="product_thumb">
-                                            <a class="primary_img" href="product-details.html"><img
-                                                    src="{% static 'img/product/product1.jpg' %}" alt=""></a>
-                                            <div class="label_product">
-                                                <span class="label_sale">-7%</span>
-                                            </div>
-                                            <div class="action_links">
-                                                <ul>
-{#                                                    <li class="add_to_cart"><a href="cart.html" title="Add to cart"><i#}
-{#                                                                class="icon-shopping-bag"></i></a></li>#}
-{#                                                    <li class="compare"><a href="#" title="Add to Compare"><i#}
-{#                                                                class="icon-sliders"></i></a></li>#}
-{#                                                    <li class="wishlist"><a href="wishlist.html"#}
-{#                                                            title="Add to Wishlist"><i class="icon-heart"></i></a></li>#}
-{#                                                    <li class="quick_button"><a href="#" data-toggle="modal"#}
-{#                                                            data-target="#modal_box" title="quick view"> <i#}
-{#                                                                class="icon-eye"></i></a></li>#}
-                                                </ul>
+                                <figure>
+
+                                    <div class="product_thumb">
+                                        {% if flower.image %}
+                                        <a class="primary_img" href="{% url 'flower_details' pk=flower.pk %}">
+                                            <img src="{{ flower.image.url }}" alt="">
+                                        </a>
+                                        {% else %}
+                                            <img src="{% static 'img/no_img.png' %}" alt="Нет изображения">
+                                        {% endif %}
+
+                                    </div>
+                                    <div class="product_content grid_content">
+                                        <div class="product_price_rating">
+                                            <h4 class="product_name"><a href="{% url 'flower_details' pk=flower.pk %}">{{ flower.name }}</a></h4>
+                                            <div class="price_box">
+                                                <span class="current_price">{{ flower.price }}</span>
                                             </div>
                                         </div>
-                                        <figcaption class="product_content">
-                                            <div class="product_rating">
-                                                <ul>
-                                                    <li><a href="#"><i class="icon-star"></i></a></li>
-                                                    <li><a href="#"><i class="icon-star"></i></a></li>
-                                                    <li><a href="#"><i class="icon-star"></i></a></li>
-                                                    <li><a href="#"><i class="icon-star"></i></a></li>
-                                                    <li><a href="#"><i class="icon-star"></i></a></li>
-                                                </ul>
-                                            </div>
-                                            <h4 class="product_name"><a href="product-details.html">commodo augue
-                                                    nisi </a></h4>
-                                            <div class="price_box">
-                                                <span class="current_price">£69.00</span>
-                                                <span class="old_price">£74.00</span>
-                                            </div>
-                                        </figcaption>
-                                    </figure>
-                                </article>
+                                    </div>
+                                    <div class="product_content list_content">
+                                        <h4 class="product_name"><a href="{% url 'flower_details' pk=flower.pk %}">{{ flower.name }}</a>
+                                        </h4>
+                                        <div class="price_box">
+                                            <span class="current_price">{{ flower.price }}</span>
+                                        </div>
+                                        <div class="product_desc">
+                                            <p>{{ flower.description }}</p>
+                                        </div>
+                                        <div class="action_links list_action_right">
+                                            <ul>
+                                                <li class="add_to_cart"><a href="cart.html" title="Add to cart">Заказать</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
 
-{#                                <article class="single_product">#}
-{#                                    <figure>#}
-{#                                        <div class="product_thumb">#}
-{#                                            <a class="primary_img" href="product-details.html"><img#}
-{#                                                    src="assets/img/product/product2.jpg" alt=""></a>#}
-{#                                            <div class="label_product">#}
-{#                                                <span class="label_sale">-9%</span>#}
-{#                                            </div>#}
-{#                                            <div class="action_links">#}
-{#                                                <ul>#}
-{#                                                    <li class="add_to_cart"><a href="cart.html" title="Add to cart"><i#}
-{#                                                                class="icon-shopping-bag"></i></a></li>#}
-{#                                                    <li class="compare"><a href="#" title="Add to Compare"><i#}
-{#                                                                class="icon-sliders"></i></a></li>#}
-{#                                                    <li class="wishlist"><a href="wishlist.html"#}
-{#                                                            title="Add to Wishlist"><i class="icon-heart"></i></a></li>#}
-{#                                                    <li class="quick_button"><a href="#" data-toggle="modal"#}
-{#                                                            data-target="#modal_box" title="quick view"> <i#}
-{#                                                                class="icon-eye"></i></a></li>#}
-{#                                                </ul>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                        <figcaption class="product_content">#}
-{#                                            <div class="product_rating">#}
-{#                                                <ul>#}
-{#                                                    <li><a href="#"><i class="icon-star"></i></a></li>#}
-{#                                                    <li><a href="#"><i class="icon-star"></i></a></li>#}
-{#                                                    <li><a href="#"><i class="icon-star"></i></a></li>#}
-{#                                                    <li><a href="#"><i class="icon-star"></i></a></li>#}
-{#                                                    <li><a href="#"><i class="icon-star"></i></a></li>#}
-{#                                                </ul>#}
-{#                                            </div>#}
-{#                                            <h4 class="product_name"><a href="product-details.html">eget sagittis 999</a>#}
-{#                                            </h4>#}
-{#                                            <div class="price_box">#}
-{#                                                <span class="current_price">£65.00</span>#}
-{#                                                <span class="old_price">£70.00</span>#}
-{#                                            </div>#}
-{#                                        </figcaption>#}
-{#                                    </figure>#}
-{#                                </article>#}
+                                </figure>
+                            </article>
+
+
                             </div>
                         </div>
-
+                        {% endfor %}
                     </div>
                 </div>
             </div>
