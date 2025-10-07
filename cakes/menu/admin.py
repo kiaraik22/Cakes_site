@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import MenuCake
+from .models import MenuCake, FlowerCategory
 
 # Register your models here.
 
@@ -20,3 +20,4 @@ class MenuCakeAdmin(admin.ModelAdmin):
 
 
 admin.site.register(MenuCake, MenuCakeAdmin)
+admin.site.register(FlowerCategory)

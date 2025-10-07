@@ -1,6 +1,7 @@
 
 from django.shortcuts import render
-from menu.models import MenuCake
+
+from menu.models import MenuCake, FlowerCategory
 from blog.models import Posts
 
 
@@ -23,5 +24,7 @@ def catalog(request):
 
 def flower_details(request, pk):
     flowers_d = MenuCake.objects.get(pk=pk)
+    # category = FlowerCategory.objects.get()
+
     context = {'flowers_d': flowers_d}
     return render(request,'menu/product-details.html', context)
