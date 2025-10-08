@@ -23,7 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('menu.urls')),
     path('blog/', include('blog.urls')),
-    # path('users/', include('users.urls')),
+    path('users/', include('users.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 ]
 

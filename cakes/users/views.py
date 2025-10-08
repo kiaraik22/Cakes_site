@@ -1,3 +1,80 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib import  messages
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.models import User
+from .forms import CustomUserCreationForm
+
+from .models import Profile
 
 # Create your views here.
+
+
+def register_user(request):
+
+    page = 'register'
+
+    form = CustomUserCreationForm()
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+
+        if form.is_valid():
+            user = form.save() # сохраняем все данные из формы
+            user.username = user.username.lower()
+            user.save()
+
+            messages.success(request, f'Учетная запись пользователя создана {user.username}')
+            login(request, user)
+            return redirect('profiles')
+        else:
+            messages.error(request, "Не удалось зарегестрироваться.")
+
+
+    context = {
+        'page':page,
+        'form':form
+    }
+
+
+    return render(request, 'users/login.html',context)
+
+def login_user(request):
+    if request.user.is_authenticated:
+        return redirect('profiles')
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        try:
+            user = User.objects.get(username=username)
+        except ObjectDoesNotExist:
+            messages.error(request,"Имя пользователя не найдено")
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('profiles')
+        else:
+            messages.error(request,"Неверное имя пользователя или пароль")
+
+    return  render(request, 'users/login.html')
+
+
+def logout_user(request):
+    logout(request)
+    messages.error(request,"User was logout")
+
+    return redirect('login')
+
+def user_profile(request, pk):
+    prof = Profile.objects.get(id=pk)
+
+
+    context = {
+        'profile':prof,
+
+    }
+
+    return render(request, "users/my-account.html", context)

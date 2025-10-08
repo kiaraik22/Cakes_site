@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-class MenuCake(models.Model):
+class MenuFlower(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     description_detail = models.TextField(null=True,blank=True)
