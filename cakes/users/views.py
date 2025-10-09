@@ -26,7 +26,7 @@ def register_user(request):
 
             messages.success(request, f'Учетная запись пользователя создана {user.username}')
             login(request, user)
-            return redirect('profiles')
+            return redirect('menu.index')
         else:
             messages.error(request, "Не удалось зарегестрироваться.")
 
@@ -41,7 +41,7 @@ def register_user(request):
 
 def login_user(request):
     if request.user.is_authenticated:
-        return redirect('profiles')
+        return redirect('menu.index')
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -55,7 +55,7 @@ def login_user(request):
 
         if user is not None:
             login(request, user)
-            return redirect('profiles')
+            return redirect('menu.index')
         else:
             messages.error(request,"Неверное имя пользователя или пароль")
 

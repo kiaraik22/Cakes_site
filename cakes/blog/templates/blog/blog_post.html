@@ -139,7 +139,7 @@
                                         <div class="blog_meta">
                                             <p>By <a href="#">Дата создания</a> <a>{{ post.created }}</a></p>
                                         </div>
-                                        <p class="post_desc">{{ post.content|truncatechars:250 }}</p>
+                                        <p class="post_desc">{{ post.content|safe|truncatechars:250 }}</p>
                                         <footer class="btn_more">
                                             <a href="blog-details.html"> Read more</a>
                                         </footer>

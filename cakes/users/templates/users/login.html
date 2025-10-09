@@ -88,51 +88,61 @@
     </div>
     <!--breadcrumbs area end-->
 
-    <!-- customer login start -->
-    <div class="customer_login">
-        <div class="container">
-            <div class="row">
-                <!--login area start-->
-                <div class="col-lg-6 col-md-6">
-                    <div class="account_form">
-                        <h2>Авторизация</h2>
-                        <form action="#">
-                            <p>
-                                <label>Login <span>*</span></label>
-                                <input type="text">
-                            </p>
-                            <p>
-                                <label>Пароль <span>*</span></label>
-                                <input type="password">
-                            </p>
-                            <div class="login_submit">
-                                <a href="#">Lost your password?</a>
+{#    <!-- customer login start -->#}
+{#    <div class="customer_login">#}
+{#        <div class="container">#}
+{#            <div class="row">#}
+{#                <!--login area start-->#}
+{#                <div class="col-lg-6 col-md-6">#}
+{#                    <div class="account_form">#}
+{#                        <h2>Авторизация</h2>#}
+{#                        <form action="#">#}
+{#                            <p>#}
+{#                                <label>Login <span>*</span></label>#}
+{#                                <input type="text">#}
+{#                            </p>#}
+{#                            <p>#}
+{#                                <label>Пароль <span>*</span></label>#}
+{#                                <input type="password">#}
+{#                            </p>#}
+{#                            <div class="login_submit">#}
+{#                                <a href="#">Lost your password?</a>#}
 {#                                <label for="remember">#}
 {#                                    <input id="remember" type="checkbox">#}
 {#                                    Remember me#}
 {#                                </label>#}
-                                <button type="submit">Вход</button>
-
-                            </div>
-
-                        </form>
-                    </div>
-                </div>
-                <!--login area start-->
+{#                                <button type="submit">Вход</button>#}
+{##}
+{#                            </div>#}
+{##}
+{#                        </form>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <!--login area start-->#}
 
                 <!--register area start-->
                 <div class="col-lg-6 col-md-6">
                     <div class="account_form register">
                         <h2>Регистрация</h2>
-                        <form action="#">
-                            <p>
-                                <label>Login <span>*</span></label>
-                                <input type="text">
-                            </p>
-                            <p>
-                                <label>Пароль <span>*</span></label>
-                                <input type="password">
-                            </p>
+                        <form action="{% url 'register' %}" method="post">
+                            {% csrf_token %}
+
+                            {% for filds in form %}
+                            <label>{{ filds.label }} </label>
+                                {{ filds }}
+
+                            {% endfor %}
+
+
+
+{#                            <p>#}
+{#                                <label>Login <span>*</span></label>#}
+{#                                <input type="text">#}
+{#                            </p>#}
+{#                            <p>#}
+{#                                <label>Пароль <span>*</span></label>#}
+{#                                <input type="password">#}
+{#                            </p>#}
                             <div class="login_submit">
                                 <button type="submit">Зарегестрироваться</button>
                             </div>
