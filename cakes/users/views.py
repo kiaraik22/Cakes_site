@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import  messages
 from django.contrib.auth import login, logout, authenticate
@@ -26,7 +27,7 @@ def register_user(request):
 
             messages.success(request, f'Учетная запись пользователя создана {user.username}')
             login(request, user)
-            return redirect('menu.index')
+            return redirect('menu.my-account')
         else:
             messages.error(request, "Не удалось зарегестрироваться.")
 
@@ -37,7 +38,7 @@ def register_user(request):
     }
 
 
-    return render(request, 'users/login.html',context)
+    return render(request, 'users/my-account.html',context)
 
 def login_user(request):
     if request.user.is_authenticated:
@@ -68,13 +69,22 @@ def logout_user(request):
 
     return redirect('login')
 
-def user_profile(request, pk):
-    prof = Profile.objects.get(id=pk)
+# def user_profile(request, pk):
+#     prof = Profile.objects.get(id=pk)
+#
+#
+#     context = {
+#         'profile':prof,
+#
+#     }
+#
+#     return render(request, "users/my-account.html", context)
 
+@login_required(login_url='login')
+def my_account(request):
+    profile = request.user.profile
 
     context = {
-        'profile':prof,
-
+        'profile':profile,
     }
-
     return render(request, "users/my-account.html", context)

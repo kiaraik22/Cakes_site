@@ -8,7 +8,7 @@ from django import forms
 # Вопрос с составлением админки
 
 class PostAdminFlower(forms.ModelForm):
-    content = forms.CharField(widget=CKEditorUploadingWidget())
+    description_detail = forms.CharField(widget=CKEditorUploadingWidget())
 
     class Meta:
         model = MenuFlower

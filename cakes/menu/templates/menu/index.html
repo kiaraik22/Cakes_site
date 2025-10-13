@@ -359,7 +359,7 @@
                                     <div class="articles_date">
                                         <p><a href="#">Дата создания</a> <a>{{ post.created }}</a></p>
                                     </div>
-                                    <p class="post_desc">{{ post.content|truncatechars:200 }}</p>
+                                    <p class="post_desc">{{ post.content|safe|truncatechars_html:300 }}</p>
                                     <footer class="blog_footer">
                                         <a href="blog-details.html">Continue Reading</a>
                                         <p><i class="icon-message-circle"></i> <span>0</span></p>
