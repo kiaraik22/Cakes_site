@@ -69,16 +69,7 @@ def logout_user(request):
 
     return redirect('login')
 
-# def user_profile(request, pk):
-#     prof = Profile.objects.get(id=pk)
-#
-#
-#     context = {
-#         'profile':prof,
-#
-#     }
-#
-#     return render(request, "users/my-account.html", context)
+
 
 @login_required(login_url='login')
 def my_account(request):

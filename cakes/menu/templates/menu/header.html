@@ -32,11 +32,11 @@
                                         </li>
                                         {% if request.user.is_authenticated %}
                                         <li>
-                                            <a href="">Мой аккаунт</a>
+                                            <a href="{% url 'account' %}">Мой аккаунт</a>
                                         </li>
-                                        {% else %}
-                                    </ul>
                                         {% endif %}
+                                    </ul>
+
 
                                 </nav>
                             </div>

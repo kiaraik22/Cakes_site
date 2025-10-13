@@ -99,7 +99,35 @@
     <!--breadcrumbs area end-->
 
     <!-- my account start  -->
+    <section class="main_content_area">
+    <div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="text-center mb-4">
+{#                {% if profile.profile_image %}#}
+{#                    <img src="{{ profile.profile_image.url }}" alt="Аватар" class="rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover; border: 2px solid #dee2e6;">#}
+{#                {% else %}#}
+{#                    <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center mb-3"#}
+{#                         style="width: 120px; height: 120px; font-size: 2rem; border: 2px solid #dee2e6;">#}
+{#                        {{ profile.user.username|first|upper }}#}
+{#                    </div>#}
+{#                {% endif %}#}
 
+                <h2>
+
+                </h2>
+                <p class="text-muted"></p>
+            </div>
+
+            <div class="container">
+                <h5 class="mb-3">О себе: </h5>
+                <p><strong>Email: {{ profile.email }}</strong> </p>
+                <p><strong>Дата регистрации: {{ profile.created }}</strong> </p>
+            </div>
+
+{#            <div class="text-center mt-4">#}
+{#                <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">Выйти</a>#}
+{#            </div>#}
 
 
         </div>
