@@ -20,10 +20,16 @@
                             <div class="header_right_info">
                                 <div class="search_container">
                                     <form action="#">
+
                                         <div class="hover_category">
                                             <select class="select_option" name="select" id="categori1">
-                                                <option selected value="1">All Categories</option>
-                                                <option value="2">Accessories</option>
+
+                                                <option selected value="1">Все Категории</option>
+
+                                                {% for cat in category %}
+                                                    <option value="{{ cat.id }}">{{ cat.name }}</option>
+                                                {% endfor %}
+
 
                                             </select>
                                         </div>
@@ -111,38 +117,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <!--shop wrapper start-->
-                    <!--shop toolbar start-->
-{#                    <div class="shop_toolbar_wrapper">#}
-{#                        <div class="shop_toolbar_btn">#}
-{##}
-{#                            <button data-role="grid_3" type="button" class=" btn-grid-3" data-toggle="tooltip"#}
-{#                                title="3"></button>#}
-{##}
-{#                            <button data-role="grid_4" type="button" class=" btn-grid-4" data-toggle="tooltip"#}
-{#                                title="4"></button>#}
-{##}
-{#                            <button data-role="grid_list" type="button" class="active btn-list" data-toggle="tooltip"#}
-{#                                title="List"></button>#}
-{#                        </div>#}
-{#                        <div class=" niceselect_option">#}
-{#                            <form class="select_option" action="#">#}
-{#                                <select name="orderby" id="short">#}
-{##}
-{#                                    <option selected value="1">Sort by average rating</option>#}
-{#                                    <option value="2">Sort by popularity</option>#}
-{#                                    <option value="3">Sort by newness</option>#}
-{#                                    <option value="4">Sort by price: low to high</option>#}
-{#                                    <option value="5">Sort by price: high to low</option>#}
-{#                                    <option value="6">Product Name: Z</option>#}
-{#                                </select>#}
-{#                            </form>#}
-{#                        </div>#}
-{#                        <div class="page_amount">#}
-{#                            <p>Showing 1–9 of 21 results</p>#}
-{#                        </div>#}
-{#                    </div>#}
-                    <!--shop toolbar end-->
+
                     <div class="row shop_wrapper grid_list">
                         <div class="col-12 ">
 
@@ -178,7 +153,15 @@
                                         </div>
                                         <div class="action_links list_action_right">
                                             <ul>
-                                                <li class="add_to_cart"><a href="cart.html" title="Add to cart">Заказать</a></li>
+                                                <li class="add_to_cart">
+                                                    <a href="#"
+                                                       class="open-order-modal"
+                                                       data-flower-id="{{ flower.id }}"
+                                                       data-flower-name="{{ flower.name }}"
+                                                       title="Заказать">
+                                                        Заказать
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -190,19 +173,43 @@
 
                     </div>
 
-                    <div class="shop_toolbar t_bottom">
+                    <div class="shop_toolbar t_bottom" style="border-radius:20px">
                         <div class="pagination">
                             <ul>
-                                <li class="current">1</li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li class="next"><a href="#">next</a></li>
-                                <li><a href="#">>></a></li>
+                                <!-- Ссылка "Предыдущая" -->
+                                {% if flowers.has_previous %}
+                                    <li class="prev">
+                                        <a href="?page={{ flowers.previous_page_number }}">«</a>
+                                    </li>
+                                {% else %}
+                                    <li class="prev disabled">
+                                        <span>«</span>
+                                    </li>
+                                {% endif %}
+
+                                <!-- Номера страниц -->
+                                {% for page_num in custom_range %}
+                                    {% if page_num == flowers.number %}
+                                        <li class="current">{{ page_num }}</li>
+                                    {% else %}
+                                        <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                <!-- Ссылка "Следующая" -->
+                                {% if flowers.has_next %}
+                                    <li class="next">
+                                        <a href="?page={{ flowers.next_page_number }}">»</a>
+                                    </li>
+                                {% else %}
+                                    <li class="next disabled">
+                                        <span>»</span>
+                                    </li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
-                    <!--shop toolbar end-->
-                    <!--shop wrapper end-->
+
                 </div>
             </div>
         </div>
@@ -212,128 +219,9 @@
 
 
     <!-- modal area start-->
-    <div class="modal fade" id="modal_box" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true"><i class="icon-x"></i></span>
-                </button>
-                <div class="modal_body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-5 col-md-5 col-sm-12">
-                                <div class="modal_tab">
-                                    <div class="tab-content product-details-large">
-                                        <div class="tab-pane fade show active" id="tab1" role="tabpanel">
-                                            <div class="modal_tab_img">
-                                                <a href="#"><img src="assets/img/product/productbig1.jpg" alt=""></a>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="tab2" role="tabpanel">
-                                            <div class="modal_tab_img">
-                                                <a href="#"><img src="assets/img/product/productbig2.jpg" alt=""></a>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="tab3" role="tabpanel">
-                                            <div class="modal_tab_img">
-                                                <a href="#"><img src="assets/img/product/productbig3.jpg" alt=""></a>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="tab4" role="tabpanel">
-                                            <div class="modal_tab_img">
-                                                <a href="#"><img src="assets/img/product/productbig4.jpg" alt=""></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal_tab_button">
-                                        <ul class="nav product_navactive owl-carousel" role="tablist">
-                                            <li>
-                                                <a class="nav-link active" data-toggle="tab" href="#tab1" role="tab"
-                                                    aria-controls="tab1" aria-selected="false"><img
-                                                        src="assets/img/product/product1.jpg" alt=""></a>
-                                            </li>
-                                            <li>
-                                                <a class="nav-link" data-toggle="tab" href="#tab2" role="tab"
-                                                    aria-controls="tab2" aria-selected="false"><img
-                                                        src="assets/img/product/product2.jpg" alt=""></a>
-                                            </li>
-                                            <li>
-                                                <a class="nav-link button_three" data-toggle="tab" href="#tab3"
-                                                    role="tab" aria-controls="tab3" aria-selected="false"><img
-                                                        src="assets/img/product/product3.jpg" alt=""></a>
-                                            </li>
-                                            <li>
-                                                <a class="nav-link" data-toggle="tab" href="#tab4" role="tab"
-                                                    aria-controls="tab4" aria-selected="false"><img
-                                                        src="assets/img/product/product8.jpg" alt=""></a>
-                                            </li>
 
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-12">
-                                <div class="modal_right">
-                                    <div class="modal_title mb-10">
-                                        <h2>Donec Ac Tempus</h2>
-                                    </div>
-                                    <div class="modal_price mb-10">
-                                        <span class="new_price">$64.99</span>
-                                        <span class="old_price">$78.99</span>
-                                    </div>
-                                    <div class="modal_description mb-15">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste
-                                            laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam
-                                            in quos qui nemo ipsum numquam, reiciendis maiores quidem aperiam, rerum vel
-                                            recusandae </p>
-                                    </div>
-                                    <div class="variants_selects">
-                                        <div class="variants_size">
-                                            <h2>size</h2>
-                                            <select class="select_option">
-                                                <option selected value="1">s</option>
-                                                <option value="1">m</option>
-                                                <option value="1">l</option>
-                                                <option value="1">xl</option>
-                                                <option value="1">xxl</option>
-                                            </select>
-                                        </div>
-                                        <div class="variants_color">
-                                            <h2>color</h2>
-                                            <select class="select_option">
-                                                <option selected value="1">purple</option>
-                                                <option value="1">violet</option>
-                                                <option value="1">black</option>
-                                                <option value="1">pink</option>
-                                                <option value="1">orange</option>
-                                            </select>
-                                        </div>
-                                        <div class="modal_add_to_cart">
-                                            <form action="#">
-                                                <input min="1" max="100" step="2" value="1" type="number">
-                                                <button type="submit">add to cart</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <div class="modal_social">
-                                        <h2>Share this product</h2>
-                                        <ul>
-                                            <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                            <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                            <li class="pinterest"><a href="#"><i class="fa fa-pinterest"></i></a></li>
-                                            <li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i></a>
-                                            </li>
-                                            <li class="linkedin"><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    {% include 'menu/order_form.html' %}
     <!-- modal area end-->
 
 {% endblock %}

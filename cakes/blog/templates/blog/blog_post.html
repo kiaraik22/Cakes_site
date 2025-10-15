@@ -18,26 +18,30 @@
                         <div class="col-lg-9 col-md-6 col-6">
                             <div class="header_right_info">
                                 <div class="search_container">
-                                    <form action="#">
-                                        <div class="hover_category">
-                                            <select class="select_option" name="select" id="categori1">
-                                                <option selected value="1">All Categories</option>
-
-                                            </select>
-                                        </div>
-                                        <div class="search_box">
-                                            <input placeholder="Search product..." type="text">
-                                            <button type="submit"><i class="icon-search"></i></button>
-                                        </div>
-                                    </form>
+{#                                    <form action="#">#}
+{#                                        <div class="hover_category">#}
+{#                                            <select class="select_option" name="select" id="categori1">#}
+{#                                                <option selected value="1">All Categories</option>#}
+{##}
+{#                                            </select>#}
+{#                                        </div>#}
+{#                                        <div class="search_box">#}
+{#                                            <input placeholder="Search product..." type="text">#}
+{#                                            <button type="submit"><i class="icon-search"></i></button>#}
+{#                                        </div>#}
+{#                                    </form>#}
                                 </div>
                                 <div class="header_account_area">
                                     <div class="header_account-list top_links">
                                         <a href="{% url 'register' %}"><i class="icon-users"></i></a>
                                         <ul class="dropdown_links">
-                                            <li><a href="{% url 'register' %}">Вход </a></li>
+                                            <li><a href="{%  url 'register' %}">Вход </a></li>
+                                            {% if request.user.is_authenticated %}
+                                            <li><a href="{% url 'logout' %}" class="nav-link">Выход </a></li>
+                                            {% else %}
 
                                         </ul>
+                                            {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -137,11 +141,11 @@
                                             </a>
                                         </h4>
                                         <div class="blog_meta">
-                                            <p>By <a href="#">Дата создания</a> <a>{{ post.created }}</a></p>
+                                            <p><a href="#">Дата создания</a> <a>{{ post.created }}</a></p>
                                         </div>
                                         <p class="post_desc">{{ post.content|safe|truncatechars:250 }}</p>
-                                        <footer class="btn_more">
-                                            <a href="blog-details.html"> Read more</a>
+                                        <footer class="btn_more" style="margin-bottom: 10px;">
+                                            <a href="{% url 'post_detail' pk=post.pk %}"> Читать </a>
                                         </footer>
                                     </figcaption>
                                 </figure>
@@ -151,6 +155,43 @@
                     </div>
 
                 </div>
+
+            <div class="shop_toolbar t_bottom" style="border-radius:20px">
+                        <div class="pagination" >
+                            <ul>
+                                <!-- Ссылка "Предыдущая" -->
+                                {% if posts.has_previous %}
+                                    <li class="prev">
+                                        <a href="?page={{ postss.previous_page_number }}">«</a>
+                                    </li>
+                                {% else %}
+                                    <li class="prev disabled">
+                                        <span>«</span>
+                                    </li>
+                                {% endif %}
+
+                                <!-- Номера страниц -->
+                                {% for page_num in custom_range %}
+                                    {% if page_num == posts.number %}
+                                        <li class="current">{{ page_num }}</li>
+                                    {% else %}
+                                        <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                <!-- Ссылка "Следующая" -->
+                                {% if posts.has_next %}
+                                    <li class="next">
+                                        <a href="?page={{ posts.next_page_number }}">»</a>
+                                    </li>
+                                {% else %}
+                                    <li class="next disabled">
+                                        <span>»</span>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
 
 
 

@@ -7,6 +7,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm
 
+
 from .models import Profile
 
 # Create your views here.
@@ -41,6 +42,7 @@ def register_user(request):
     return render(request, 'users/login.html',context)
 
 def login_user(request):
+
     if request.user.is_authenticated:
         return redirect('menu.index')
     if request.method == 'POST':
@@ -59,6 +61,8 @@ def login_user(request):
             return redirect('account')
         else:
             messages.error(request,"Неверное имя пользователя или пароль")
+
+
 
     return  render(request, 'users/login.html')
 

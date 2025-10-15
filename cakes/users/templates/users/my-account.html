@@ -32,9 +32,13 @@
                                     <div class="header_account-list top_links">
                                         <a href="{% url 'register' %}"><i class="icon-users"></i></a>
                                         <ul class="dropdown_links">
-                                            <li><a href="{% url 'register' %}">Вход </a></li>
+                                            <li><a href="{%  url 'register' %}">Вход </a></li>
+                                            {% if request.user.is_authenticated %}
+                                            <li><a href="{% url 'logout' %}" class="nav-link">Выход </a></li>
+                                            {% else %}
 
                                         </ul>
+                                            {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -143,7 +147,7 @@
                         <div class="dashboard_tab_button">
                             <ul role="tablist" class="nav flex-column dashboard-list">
 
-                                <li><a href="login.html" class="nav-link">Выход</a></li>
+                                <li><a href="{% url 'logout' %}" class="nav-link">Выход</a></li>
                             </ul>
                         </div>
                     </div>

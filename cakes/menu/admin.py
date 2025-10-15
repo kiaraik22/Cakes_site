@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import MenuFlower, FlowerCategory
+from .models import MenuFlower, FlowerCategory, OrderFlower
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 
@@ -29,6 +29,19 @@ class MenuCakeAdmin(admin.ModelAdmin):
     # добавили фильтр по полям
     list_filter = ('name','price','description')
 
+class OrderFlowerAdmin(admin.ModelAdmin):
+
+    # показывает,какие поля будут видны в админке
+    list_display = ('name', 'surname','flower', 'phone_number','created_at')
+
+    # делаем выбранные графы кликабельными в админке
+    list_display_links = ('name', 'surname','flower', 'phone_number')
+
+    # добавили поиск по полям
+    search_fields = ('name', 'flower__name')
+
+
 
 admin.site.register(MenuFlower, MenuCakeAdmin)
 admin.site.register(FlowerCategory)
+admin.site.register(OrderFlower,OrderFlowerAdmin)

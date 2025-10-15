@@ -25,3 +25,16 @@ class FlowerCategory(models.Model):
     def __str__(self):
         return self.name
 
+
+class OrderFlower(models.Model):
+    flower = models.ForeignKey(MenuFlower, on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=200)
+    surname = models.CharField(max_length=200)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=11)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return f"Заказ от {self.name}"
