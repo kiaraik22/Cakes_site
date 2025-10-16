@@ -93,13 +93,33 @@
 
 
     <div class="customer_login">
-        <div class="container">
+        <div class="container" style="margin-right: 60px;margin-bottom: 50px;">
 
-            <div class="row">
+
+                {% if page == 'register' %}
+
+                    <div class="col-lg-6 col-md-6">
+                    <div class="account_form register">
+                        <h2>Регистрация</h2>
+                        <form action="{% url 'register' %}" method="post">
+                            {% csrf_token %}
+                            {% for fild in form %}
+                            <label style="margin: 5px">{{ fild.label }} </label>
+                                {{ fild }}
+                            {% endfor %}
+                            <div class="login_submit">
+                                <a href="{%  url 'login' %}" class="btn">Уже есть аккаунт</a>
+                                <button type="submit" style="margin-top: 10px;">Зарегистрироваться</button>
+                            </div>
+
+                        </form>
+
+                </div>
+
+                {% else %}
+
                 <!--login area start-->
                 <div class="col-lg-6 col-md-6">
-
-
                     <div class="account_form">
                         <h2>Авторизация</h2>
                         <form action="{% url 'login' %}" method="post">
@@ -113,51 +133,13 @@
                                 <input type="password"  name="password">
                             </p>
                             <div class="login_submit">
-
+                                <a href="{%  url 'register' %}" class="btn">Зарегистрироваться</a>
                                 <button type="submit">Вход</button>
-
-                            </div>
-
-                        </form>
-                    </div>
-                </div>
-                <!--login area start-->
-
-                <!--register area start-->
-                <div class="col-lg-6 col-md-6">
-
-
-                    <div class="account_form register">
-
-                        <h2>Регистрация</h2>
-                        <form action="{% url 'register' %}" method="post">
-                            {% csrf_token %}
-
-
-
-                            {% for fild in form %}
-                            <label style="margin: 5px">{{ fild.label }} </label>
-                                {{ fild }}
-
-                            {% endfor %}
-                            <div>
-
-                            </div>
-                            <div class="login_submit">
-                                <button type="submit" style="margin-top: 10px;">Зарегистрироваться</button>
                             </div>
                         </form>
                     </div>
-
                 </div>
-                <!--register area end-->
+                {% endif %}
             </div>
         </div>
-{#    </div>#}
-    <!-- customer login end -->
-
-    <!--brand area start-->
-
-    <!--brand area end-->
-
 {% endblock %}

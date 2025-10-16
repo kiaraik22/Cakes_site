@@ -18,8 +18,16 @@ def index(request):
     return render(request, 'menu/index.html', context)
 
 def catalog(request):
+    query = request.GET.get('q', '').strip()
+    category_id = request.GET.get('category', '').strip()
+
     flowers = MenuFlower.objects.all()
-    category = FlowerCategory.objects.all()
+
+    if query:
+        flowers = flowers.filter(name__icontains=query)
+
+    if category_id and category_id.isdigit():
+        flowers = flowers.filter(category__id=category_id)
 
     page = request.GET.get('page')
     results = 3
@@ -28,25 +36,23 @@ def catalog(request):
     try:
         flowers = paginator.page(page)
     except PageNotAnInteger:
-        page = 1
-        flowers = paginator.page(page)
+        flowers = paginator.page(1)
     except EmptyPage:
-        page = paginator.num_pages
-        flowers = paginator.page(page)
+        flowers = paginator.page(paginator.num_pages)
 
-    left_index = int(page) - 3
-
-    if left_index < 1:
-        left_index = 1
-
-    right_index = int(page) + 4
-
-    if right_index > paginator.num_pages:
-        right_index = paginator.num_pages + 1
-
+    current_page = flowers.number
+    left_index = max(1, current_page - 3)
+    right_index = min(paginator.num_pages + 1, current_page + 4)
     custom_range = range(left_index, right_index)
 
-    context = {'flowers': flowers, 'category': category, 'custom_range': custom_range, 'paginator': paginator}
+    context = {
+        'flowers': flowers,
+        'category': FlowerCategory.objects.all(),
+        'custom_range': custom_range,
+        'paginator': paginator,
+        'query': query,
+        'selected_category': int(category_id) if category_id.isdigit() else None,
+    }
 
     return render(request, 'menu/shop-fullwidth-list.html', context)
 

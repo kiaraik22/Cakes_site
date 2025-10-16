@@ -19,25 +19,26 @@
                         <div class="col-lg-9 col-md-6 col-6">
                             <div class="header_right_info">
                                 <div class="search_container">
-                                    <form action="#">
 
+
+                                    <form method="get" action="{% url 'menu.catalog' %}">
                                         <div class="hover_category">
-                                            <select class="select_option" name="select" id="categori1">
-
-                                                <option selected value="1">Все Категории</option>
-
+                                            <select class="select_option" name="category" id="categori1">
+                                                <option value="">Все Категории</option>
                                                 {% for cat in category %}
-                                                    <option value="{{ cat.id }}">{{ cat.name }}</option>
+                                                    <option value="{{ cat.id }}" {% if selected_category == cat.id %}selected{% endif %}>
+                                                        {{ cat.name }}
+                                                    </option>
                                                 {% endfor %}
-
-
                                             </select>
                                         </div>
                                         <div class="search_box">
-                                            <input placeholder="Search product..." type="text">
+                                            <input name="q"  value="{{ query }}">
                                             <button type="submit"><i class="icon-search"></i></button>
                                         </div>
                                     </form>
+
+
                                 </div>
 
                                 <div class="header_account_area">
@@ -103,7 +104,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="breadcrumb_content">
-                        <h3>Shop</h3>
+                        <h3>Каталог товаров</h3>
 
                     </div>
                 </div>
@@ -176,36 +177,33 @@
                     <div class="shop_toolbar t_bottom" style="border-radius:20px">
                         <div class="pagination">
                             <ul>
-                                <!-- Ссылка "Предыдущая" -->
+
                                 {% if flowers.has_previous %}
                                     <li class="prev">
-                                        <a href="?page={{ flowers.previous_page_number }}">«</a>
+                                        <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ flowers.previous_page_number }}">«</a>
                                     </li>
                                 {% else %}
-                                    <li class="prev disabled">
-                                        <span>«</span>
-                                    </li>
+                                    <li class="prev disabled"><span>«</span></li>
                                 {% endif %}
 
-                                <!-- Номера страниц -->
                                 {% for page_num in custom_range %}
                                     {% if page_num == flowers.number %}
                                         <li class="current">{{ page_num }}</li>
                                     {% else %}
-                                        <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                                        <li>
+                                            <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_num }}">{{ page_num }}</a>
+                                        </li>
                                     {% endif %}
                                 {% endfor %}
 
-                                <!-- Ссылка "Следующая" -->
                                 {% if flowers.has_next %}
                                     <li class="next">
-                                        <a href="?page={{ flowers.next_page_number }}">»</a>
+                                        <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ flowers.next_page_number }}">»</a>
                                     </li>
                                 {% else %}
-                                    <li class="next disabled">
-                                        <span>»</span>
-                                    </li>
+                                    <li class="next disabled"><span>»</span></li>
                                 {% endif %}
+
                             </ul>
                         </div>
                     </div>
