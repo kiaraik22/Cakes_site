@@ -1,7 +1,9 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models.expressions import result
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import render, redirect
 from blog.models import Posts
+from .forms import CommentsForm
 
 # Create your views here.
 
@@ -37,8 +39,22 @@ def posts(request):
     context = {'posts':posts, 'custom_range': custom_range, 'paginator': paginator}
     return render(request, 'blog/blog_post.html', context)
 
-
 def post_detail(request, pk):
     post = Posts.objects.get(pk=pk)
-    context = {'post':post}
+
+    form = CommentsForm()
+
+    if request.method == 'POST':
+        form = CommentsForm(request.POST)
+        review = form.save(commit=False)
+        review.owner = request.user.profile
+        review.post = post
+        review.save()
+
+
+
+        return redirect('post_detail', pk=post.id)
+
+
+    context = {'post':post, 'form':form}
     return render(request, 'blog/blog-details.html', context)

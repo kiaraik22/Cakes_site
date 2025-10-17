@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Posts
+from .models import Posts, Comments
 
 # Register your models here.
 
@@ -32,3 +32,4 @@ class PostsAdmin(admin.ModelAdmin):
     list_filter = ('title', 'created')
 
 admin.site.register(Posts, PostsAdmin)
+admin.site.register(Comments)
