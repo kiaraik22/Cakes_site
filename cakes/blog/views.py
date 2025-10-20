@@ -1,8 +1,8 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models.expressions import result
 from django.contrib import messages
-from django.shortcuts import render, redirect
-from blog.models import Posts
+from django.shortcuts import render, redirect, get_object_or_404
+from blog.models import Posts, Profile
 from .forms import CommentsForm
 
 # Create your views here.
@@ -40,21 +40,32 @@ def posts(request):
     return render(request, 'blog/blog_post.html', context)
 
 def post_detail(request, pk):
-    post = Posts.objects.get(pk=pk)
+    post = get_object_or_404(Posts, pk=pk)
+    comments = post.comments_set.all().select_related('owner')  # оптимизация
 
-    form = CommentsForm()
+    # Форма и обработка только для авторизованных
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = CommentsForm(request.POST)
+            if form.is_valid():
+                try:
+                    review = form.save(commit=False)
+                    review.owner = request.user.profile  # убедитесь, что профиль существует
+                    review.post = post
+                    review.save()
+                    messages.success(request, "Ваш комментарий добавлен!")
+                    return redirect('post_detail', pk=post.pk)
+                except Profile.DoesNotExist:
+                    messages.error(request, "У вашего аккаунта нет профиля. Обратитесь к администратору.")
+                    # или создайте профиль автоматически
+        else:
+            form = CommentsForm()
+    else:
+        form = None  # форма не отображается для анонимов
 
-    if request.method == 'POST':
-        form = CommentsForm(request.POST)
-        review = form.save(commit=False)
-        review.owner = request.user.profile
-        review.post = post
-        review.save()
-
-
-
-        return redirect('post_detail', pk=post.id)
-
-
-    context = {'post':post, 'form':form}
+    context = {
+        'post': post,
+        'comments': comments,
+        'form': form,  # будет None для анонимов
+    }
     return render(request, 'blog/blog-details.html', context)

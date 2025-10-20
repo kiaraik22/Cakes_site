@@ -10,6 +10,6 @@ urlpatterns = [
     path("logout/", views.logout_user, name="logout"),
 
     path("account/", views.my_account, name="account"),
-
+    path('profile/<int:pk>/', views.user_profile, name='user_profile'),
 
 ]

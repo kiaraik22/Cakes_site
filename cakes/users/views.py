@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
@@ -83,3 +83,7 @@ def my_account(request):
         'profile':profile,
     }
     return render(request, "users/my-account.html", context)
+
+def user_profile(request, pk):
+    profile = get_object_or_404(Profile, id=pk)
+    return render(request, 'users/my-account.html', {'profile': profile})

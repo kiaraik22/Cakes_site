@@ -64,13 +64,13 @@
 
 
                             <div class="comment_list">
-                                {% for review in comments.post_set.all %}
+                                {% for review in post.comments_set.all %}
 {#                                <div class="comment_thumb">#}
 {#                                    <img src="assets/img/blog/comment3.png.jpg" alt="">#}
 {#                                </div>#}
                                 <div class="comment_content">
                                     <div class="comment_meta">
-                                        <h5><a href="{% url 'my_account' review.owner.id %}">{ review.owner.name }}</a></h5>
+                                        <h5><a href="{% url 'user_profile' review.owner.id %}">{{ review.owner.name }}</a></h5>
                                         <span>{{ review.created }}</span>
                                     </div>
                                     <p>{{ review.content }}</p>
@@ -81,28 +81,33 @@
 
                         </div>
 
+                        {% if request.user.profile.id in project.reviewers %}
+                         <p>Вы уже оставили комментарий к посту</p>
+                        {% elif request.user.profile == project.owner %}
+                        
 
-
-                        <div class="comments_form">
-                            <h3>Leave a Reply </h3>
-                            <p>Your email address will not be published. Required fields are marked *</p>
-
-
-                            <form action="#">
-                                {% csrf_token %}
-                                {% for field in form %}
-
-                              <!-- Textarea -->
-
-                              <div class="form__field">
-                                <label for="#"> {{ field.label }} </label>
-                                {{ field }}
-                              </div>
-
-                                {% endfor %}
-
-                                <button class="button" type="submit">Отправить</button>
-                            </form>
+                        {% elif request.user.is_authenticated %}
+                            <div class="comments_form">
+                                <h3>Оставить комментарий</h3>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    {% for field in form %}
+                                        <div class="form__field">
+                                            <label>{{ field.label }}</label>
+                                            {{ field }}
+                                            {% if field.errors %}
+                                                <div class="error">{{ field.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                    <button class="button" type="submit">Отправить</button>
+                                </form>
+                            </div>
+                        {% else %}
+                            <div class="comments_form">
+                                <p><a href="{% url 'login' %}">Войдите</a>, чтобы оставить комментарий.</p>
+                            </div>
+                        {% endif %}
 
 
                         </div>
